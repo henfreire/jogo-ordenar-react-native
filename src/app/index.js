@@ -9,8 +9,7 @@
 import React, { Component } from "react";
 import { Platform, StyleSheet, Text, View, Button, Image } from "react-native";
 import Tabuleiro from "../components/Tabuleiro/index.js";
-// import { logo } from "jogo/src/components/Logo";
-import Logo from "Ordenar/src/assets/images/order-image.png";
+import { logoBranca } from "ordenar/src/components/Logo";
 const instructions = Platform.select({
   ios: "Press Cmd+R to reload,\n" + "Cmd+D or shake for dev menu",
   android:
@@ -24,7 +23,7 @@ export default class App extends Component<Props> {
     return (
       <View style={styles.container}>
         <View style={styles.logo}>
-          <Image source={Logo} style={styles.img} />
+          <Image source={logoBranca} style={styles.img} />
         </View>
         <Tabuleiro />
       </View>
@@ -64,6 +63,8 @@ const styles = StyleSheet.create({
   img: {
     flex: 0,
     justifyContent: "flex-start",
+    alignItems: "flex-start",
+    flexDirection:"column",
     width: 60,
     height: 40
   }
