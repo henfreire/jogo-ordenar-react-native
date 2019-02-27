@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, ToastAndroid } from 'react-native';
 import Button from './Button/index.js';
-import Jogadas from './Jogadas';
+
 class Tabuleiro extends React.Component {
 	state = {
 		jogadas: 0,
@@ -68,6 +68,7 @@ class Tabuleiro extends React.Component {
 		this.logica({ index });
 	};
 	plusJogada = () => {
+		this.props.onJogadas();
 		this.setState({ jogadas: this.state.jogadas + 1 });
 	};
 	logica = ({ index }) => {
@@ -149,7 +150,6 @@ class Tabuleiro extends React.Component {
 		const { lista, jogadas } = this.state;
 		return (
 			<View style={styles.container}>
-				<Jogadas valor={jogadas} />
 				<View style={styles.tabuleiro}>
 					{lista.map((item, index) => (
 						<Button
@@ -168,17 +168,19 @@ class Tabuleiro extends React.Component {
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 2,
+		flex: 1,
 		flexDirection: 'column',
 		alignItems: 'center',
-		backgroundColor: '#531CB3'
+		backgroundColor: '#F1B802',
+		justifyContent: 'center',
 	},
 	tabuleiro: {
-		flex: 1,
+		flex: 2,
 		flexDirection: 'row',
 		flexWrap: 'wrap',
 		justifyContent: 'center',
-		alignItems: 'center'
+		alignItems: 'center',
+		marginTop: 5
 	}
 });
 export default Tabuleiro;

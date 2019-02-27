@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
 		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'center',
-		backgroundColor: '#531CB3',
+		backgroundColor: '#F1B802',
 		fontFamily: 'Roboto'
 	},
 	vBtnJogar: {
