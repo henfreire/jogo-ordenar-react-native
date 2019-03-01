@@ -13,6 +13,9 @@ import { logoBranca } from 'ordenar/src/components/Logo';
 import Botao from 'ordenar/src/components/ui/Button';
 import Jogadas from 'ordenar/src/components/Tabuleiro/Jogadas';
 import Time from 'ordenar/src/components/Time';
+import Sound from 'react-native-sound';
+import SomMario from 'ordenar/src/assets/sons/super-mario.mp3';
+import Reactotron from 'reactotron-react-native'
 const listaFacil = [
 	{
 		num: 0
@@ -63,6 +66,17 @@ const listaFacil = [
 		num: 15
 	}
 ];
+
+let hello = new Sound(SomMario, Sound.MAIN_BUNDLE, (error) => {
+	if (error) {
+		Reactotron.log(error);
+	}
+});
+hello.play((success) => {
+	if (!success) {
+		Reactotron.log(success)
+	}
+});
 export default class App extends Component {
 	state = {
 		jogadas: 0,
@@ -119,6 +133,7 @@ export default class App extends Component {
 		]
 	};
 	UNSAFE_componentWillMount() {
+		
 		this.gerarNovo();
 	}
 	handleVoltar = () => {
@@ -155,9 +170,16 @@ export default class App extends Component {
 		let indice = 0;
 		if (lista[index].num != 0) {
 			//Primeiro
-			if (listaD.some((x) => x == index)) indice = 1;
-			else indice = 0;
-			for (let i = indice; i < 2; i++ ) {
+			if (listaE.some((x) => x == index)){
+				indice = 1;
+				sinal = 1;
+			}
+			if (listaD.some((x) => x == index)){
+				indice = 1;
+				sinal = -1;
+			}
+			
+			for (let i = indice; i < 2; i++) {
 				p = Math.abs(index + sinal);
 				//console.tron.log("primeiro p", p, "i", i);
 				if (this.keyExist(lista, p)) {
@@ -175,10 +197,11 @@ export default class App extends Component {
 			}
 			if (!achou) {
 				//Segundo
+				indice = 0;
 				sinal = -4;
-				if (listaE.some((x) => x == index)) indice = 1;
-				else indice = 0;
-				for (let i = indice; i < 2; i++ ) {
+				// if (listaD.some((x) => x == index)) indice = 1;
+				// else indice = 0;
+				for (let i = 0; i < 2; i++) {
 					p = Math.abs(index + sinal);
 					//console.tron.log("segundo p", p, "i", i, "num", lista[p].num);
 					if (this.keyExist(lista, p)) {
@@ -227,6 +250,7 @@ export default class App extends Component {
 	};
 	render() {
 		const { jogadas, lista } = this.state;
+		
 		return (
 			<View style={styles.container}>
 				<View style={styles.cabecalho}>
