@@ -13,6 +13,7 @@ import { createStackNavigator, createAppContainer } from 'react-navigation';
 //Telas
 import InicialScreen from './Inicial';
 import JogarScreen from './Jogar';
+import VenceuScreen from './Venceu';
 
 const instructions = Platform.select({
 	ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -26,6 +27,9 @@ const MainNavigator = createStackNavigator(
 		},
 		Jogar: {
 			screen: JogarScreen
+		},
+		Venceu: {
+			screen: VenceuScreen
 		}
 	},
 	{

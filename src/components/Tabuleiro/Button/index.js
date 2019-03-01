@@ -1,22 +1,35 @@
 import React from 'react';
-import { StyleSheet, Text, View, Animated, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Animated, TouchableOpacity, PanResponder } from 'react-native';
 
-const Button = ({ index, texto, acao, onPress }) => {
-	const handlePress = () => {
-		onPress({ index });
+class Button extends React.Component {
+	_panResponder = PanResponder.create({
+		onMoveShouldSetPanResponder: (evt, gestureState) => {
+			const { index } = this.props;
+			this.props.onPress({ index });
+		},
+		onPanResponderMove: (evt, gestureState) => {},
+		onPanResponderTerminationRequest: (evt, gestureState) => true,
+		onPanResponderRelease: (evt, gestureState) => {},
+		onPanResponderTerminate: (evt, gestureState) => {}
+	});
+	handlePress = () => {
+		this.props.onPress({ index });
 	};
-	return (
-		<View style={styles.container}>
-			<TouchableOpacity
-      activeOpacity={0}
-				style={acao ? styles.buttonAcao : index % 2 == 0 ? styles.button : styles.button2}
-				onPress={handlePress}
-			>
-				<Text style={acao ? styles.textoAcao : styles.texto}>{texto}</Text>
-			</TouchableOpacity>
-		</View>
-	);
-};
+	render() {
+		const { index, texto, acao } = this.props;
+
+		return (
+			<View style={styles.container} {...this._panResponder.panHandlers}>
+				<TouchableOpacity
+					activeOpacity={0}
+					style={acao ? styles.buttonAcao : index % 2 == 0 ? styles.button : styles.button2}
+				>
+					<Text style={acao ? styles.textoAcao : styles.texto}>{texto}</Text>
+				</TouchableOpacity>
+			</View>
+		);
+	}
+}
 
 const styles = StyleSheet.create({
 	container: {},

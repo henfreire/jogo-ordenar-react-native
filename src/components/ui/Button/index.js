@@ -21,18 +21,19 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 		backgroundColor: 'rgba(0,0,0,0.2)',
-		width: 100,
+		
 		height: 50,
 		borderColor: 'rgba(0,0,0,0.2)',
 		borderRadius: 5,
 		borderWidth: 5,
-		padding: 5,
+		padding: 8,
 		margin: 3
 	},
 	texto: {
 		color: '#fff',
 		fontWeight: 'bold',
-		fontSize: 20
+		fontSize: 20,
+		textAlign: 'center'
 	},
 	textoAcao: {
 		color: 'transparent',

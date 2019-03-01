@@ -3,151 +3,11 @@ import { StyleSheet, Text, View, Image, ToastAndroid } from 'react-native';
 import Button from './Button/index.js';
 
 class Tabuleiro extends React.Component {
-	state = {
-		jogadas: 0,
-		lista: [
-			{
-				num: 0
-			},
-			{
-				num: 1
-			},
-			{
-				num: 2
-			},
-			{
-				num: 3
-			},
-			{
-				num: 4
-			},
-			{
-				num: 5
-			},
-			{
-				num: 6
-			},
-			{
-				num: 7
-			},
-			{
-				num: 8
-			},
-			{
-				num: 9
-			},
-			{
-				num: 10
-			},
-			{
-				num: 11
-			},
-			{
-				num: 12
-			},
-			{
-				num: 13
-			},
-			{
-				num: 14
-			},
-			{
-				num: 15
-			}
-		]
+	handlePress = ({ index }) => {
+		this.props.onPress({ index });
 	};
-	UNSAFE_componentWillMount() {
-		//this.gerarNovo();
-	}
-	gerarNovo = ()=>{
-		const { size } = this.props;
-		const lista = this.tabuleRandom({ size });
-		this.setState({ lista });
-	}
-	onPress = ({ index }) => {
-		this.logica({ index });
-	};
-	plusJogada = () => {
-		this.props.onJogadas();
-		this.setState({ jogadas: this.state.jogadas + 1 });
-	};
-	logica = ({ index }) => {
-		let { lista } = this.state;
-		let aux = lista[index];
-		let sinal = -1;
-		let p = index;
-		let achou = false;
-		if (lista[index].num != 0) {
-			//Primeiro
-			for (let i = 0; i < 2; i++) {
-				p = Math.abs(index + sinal);
-				//console.tron.log("primeiro p", p, "i", i);
-				if (this.keyExist(lista, p)) {
-					if (lista[p].num == 0) {
-						//console.tron.log("primeiro achou p", p, "i", i,  "num", lista[p].num);
-						lista[index] = lista[p];
-						lista[p] = aux;
-						this.plusJogada();
-						achou = true;
-						break;
-					} else {
-						sinal = 1;
-					}
-				}
-			}
-			if (!achou) {
-				//Segundo
-				sinal = -4;
-				for (let i = 0; i < 2; i++) {
-					p = Math.abs(index + sinal);
-					//console.tron.log("segundo p", p, "i", i, "num", lista[p].num);
-					if (this.keyExist(lista, p)) {
-						if (lista[p].num == 0) {
-							//console.tron.log("segundo achou p", p, "i", i);
-							lista[index] = lista[p];
-							lista[p] = aux;
-							this.plusJogada();
-							break;
-						} else {
-							sinal = 4;
-						}
-					}
-				}
-			}
-		}
-
-		this.setState({ lista });
-		const ganhou = this.verificarGanhou();
-		if (ganhou) {
-			ToastAndroid.show('Parabéns você venceu!', ToastAndroid.SHORT);
-			this.gerarNovo();
-		}
-	};
-	keyExist = (array, key) => (typeof array[key] !== 'undefined' ? true : false);
-
-	verificarGanhou = () => {
-		let { lista } = this.state;
-		const crescente = lista.every((val, i, arr) => !i || val.num >= arr[i - 1].num);
-		const decrescente = lista.every((val, i, arr) => !i || val.num <= arr[i - 1].num);
-		return crescente || decrescente;
-	};
-
-	tabuleRandom = ({ size }) => {
-		let n = 0;
-		let tabu = [];
-		while (tabu.length < size) {
-			n = Math.floor(Math.random() * size);
-			if (!tabu.find((x) => x.num == n)) {
-				tabu.push({
-					num: n
-				});
-			}
-		}
-		return tabu;
-	};
-
 	render() {
-		const { lista, jogadas } = this.state;
+		const { lista } = this.props;
 		return (
 			<View style={styles.container}>
 				<View style={styles.tabuleiro}>
@@ -157,7 +17,7 @@ class Tabuleiro extends React.Component {
 							index={index}
 							texto={item.num}
 							acao={item.num == 0 ? true : false}
-							onPress={this.onPress}
+							onPress={this.handlePress}
 						/>
 					))}
 				</View>
@@ -172,7 +32,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'column',
 		alignItems: 'center',
 		backgroundColor: '#F1B802',
-		justifyContent: 'center',
+		justifyContent: 'center'
 	},
 	tabuleiro: {
 		flex: 2,
