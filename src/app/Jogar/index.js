@@ -15,7 +15,7 @@ import Jogadas from 'ordenar/src/components/Tabuleiro/Jogadas';
 import Time from 'ordenar/src/components/Time';
 import Sound from 'react-native-sound';
 import SomMario from 'ordenar/src/assets/sons/super-mario.mp3';
-import Reactotron from 'reactotron-react-native'
+import Reactotron from 'reactotron-react-native';
 const listaFacil = [
 	{
 		num: 0
@@ -67,16 +67,6 @@ const listaFacil = [
 	}
 ];
 
-let hello = new Sound(SomMario, Sound.MAIN_BUNDLE, (error) => {
-	if (error) {
-		Reactotron.log(error);
-	}
-});
-hello.play((success) => {
-	if (!success) {
-		Reactotron.log(success)
-	}
-});
 export default class App extends Component {
 	state = {
 		jogadas: 0,
@@ -133,7 +123,21 @@ export default class App extends Component {
 		]
 	};
 	UNSAFE_componentWillMount() {
-		
+		Reactotron.log(SomMario);
+	
+		const sound = new Sound(SomMario, Sound.MAIN_BUNDLE, (error) => {
+			Reactotron.log('error',error);
+			if (error) {
+				Reactotron.log('error',error);
+			}
+		});
+		Reactotron.log("sound", sound);
+		sound.setVolume(.5).setPan(.5).play();
+		sound.play((success) => {
+			if (!success) {
+				Reactotron.log('sucess', success);
+			}
+		});
 		this.gerarNovo();
 	}
 	handleVoltar = () => {
@@ -170,15 +174,15 @@ export default class App extends Component {
 		let indice = 0;
 		if (lista[index].num != 0) {
 			//Primeiro
-			if (listaE.some((x) => x == index)){
+			if (listaE.some((x) => x == index)) {
 				indice = 1;
 				sinal = 1;
 			}
-			if (listaD.some((x) => x == index)){
+			if (listaD.some((x) => x == index)) {
 				indice = 1;
 				sinal = -1;
 			}
-			
+
 			for (let i = indice; i < 2; i++) {
 				p = Math.abs(index + sinal);
 				//console.tron.log("primeiro p", p, "i", i);
@@ -250,7 +254,7 @@ export default class App extends Component {
 	};
 	render() {
 		const { jogadas, lista } = this.state;
-		
+
 		return (
 			<View style={styles.container}>
 				<View style={styles.cabecalho}>
